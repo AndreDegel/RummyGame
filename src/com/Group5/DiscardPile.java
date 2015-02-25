@@ -1,5 +1,6 @@
 package com.Group5;
 
+import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -7,10 +8,14 @@ import java.util.Stack;
  */
 public class DiscardPile extends Pile {
 
+    public DiscardPile(LinkedList<Cards> deck) {
+        super(deck);
+    }
+
     public void toStockPile(Pile stockPile) {
-        while (super.Cards.size() > 0) {
-            Card c = super.Cards.pop();
-            stockPile.Cards.push(c);
+        while (Card.size() > 0) {
+            Cards c = Card.pop();
+            stockPile.Card.push(c);
         }
     }
 }
