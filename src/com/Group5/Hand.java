@@ -26,4 +26,5 @@ public class Hand {
 
     public void Discard(Card card, Pile discardPile) {
     }
+
 }
