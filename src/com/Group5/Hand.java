@@ -6,25 +6,25 @@ import java.util.ArrayList;
  * Created by Abdallah on 2/19/2015.
  */
 public class Hand {
-    private ArrayList<Card> Cards;
+    private ArrayList<Cards> Card;
 
     public Hand() {
-        this.Cards = new ArrayList<Card>();
+        this.Card = new ArrayList<Cards>();
     }
 
-    public ArrayList<Card> getAllCards() {
-        return this.Cards;
+    public ArrayList<Cards> getAllCards() {
+        return this.Card;
     }
 
-    public Card getCard(int index) {
-        return this.Cards.get(index);
+    public Cards getCard(int index) {
+        return this.Card.get(index);
     }
 
-    public void AddCard(Card card) {
-        this.Cards.add(card);
+    public void AddCard(Cards card) {
+        this.Card.add(card);
     }
 
-    public void Discard(Card card, Pile discardPile) {
+    public void Discard(Cards card, Pile discardPile) {
     }
 
 }
