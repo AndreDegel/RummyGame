@@ -18,13 +18,13 @@ public enum Rank {
     Queen(12),
     King(13);
 
-    private int Value;
+    private final int VALUE;
 
     private Rank(int val) {
-        this.Value = val;
+        this.VALUE = val;
     }
 
     public int getValue() {
-        return Value;
+        return this.VALUE;
     }
 }
