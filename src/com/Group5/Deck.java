@@ -8,16 +8,14 @@ public class Deck {
     //Data for a Deck Object
     private LinkedList<Cards> deck;
     private Cards c;
-    private int RANKS[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
-    private String SUITS[] = {"Spades", "Diamonds", "Hearts", "Clubs"};
 
     //Make a new Deck of Card Objects(52Cards) and store it in a LinkedList
     //to use as a Stack.
     public LinkedList<Cards> makeDeck(){
         this.deck = new LinkedList<Cards>();
-        for (String suit : SUITS){
-            for (Integer rank : RANKS){
-                this.c = new Cards(rank, suit);
+        for (Suit s : Suit.values()){
+            for (Rank r : Rank.values()){
+                this.c = new Cards(r, s);
                 this.deck.push(this.c);
             }
         }
@@ -54,7 +52,7 @@ public class Deck {
             System.out.println("The deck is empty");
         }
         else {
-            deckCards.pop().showCard();
+            deckCards.pop().toString();
         }
     }
 }

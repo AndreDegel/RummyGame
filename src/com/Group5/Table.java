@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Static class, variables, and methods because it(table) never changes
  * and doesn't need to be instantiated.
  */
-public class Table {
+public class Table{// implements Comparable<Cards>{
     public static ArrayList<ArrayList<Cards>> tableCards = new ArrayList<ArrayList<Cards>>();
 
     //see (get) whatever is on the table
@@ -31,7 +31,6 @@ public class Table {
         }
         //TODO: sort
         tableCards.add(addCardsHere);
-
     }
 }
 

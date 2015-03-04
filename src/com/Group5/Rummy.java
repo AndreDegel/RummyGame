@@ -17,10 +17,13 @@ public class Rummy {
         deck.shuffle(newDeck);
 
 
+
+
         //good till here:
         //-----------------------------------------
         //Deal/Show first card of Stack
         deck.deal(newDeck);
 
+        System.out.println(newDeck.toString());
     }
 }

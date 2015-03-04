@@ -1,30 +1,27 @@
 package com.Group5;
 
-public class Cards {
+public class Cards{ //implements Comparable<Cards> {
     //Data for a card object
-    private int rank;
-    private String suit;
+    private Rank rank;
+    private Suit suit;
 
     //Constructor
-    public Cards(int rank, String suit){
+    public Cards(Rank rank, Suit suit){
         this.rank = rank;
         this.suit = suit;
     }
 
     //Method that returns the string representation of a card.
-    public void showCard(){
-        String rankName;
-        if (this.rank == 1) {
-            rankName = "Ace";
-        } else if (this.rank == 11) {
-            rankName = "Jack";
-        } else if (this.rank == 12) {
-            rankName = "Queen";
-        } else if (this.rank == 13) {
-            rankName = "King";
-        } else {
-            rankName = Integer.toString(this.rank);
-        }
-        System.out.println(rankName + " of " + suit);
+    @Override
+    public String toString(){
+        int rank = this.rank.getValue();
+        char suit = this.suit.getSymbol();
+        String color = this.suit.getColor();
+
+        return color + Integer.toString(rank) + suit + "\u001B[0m";
     }
+/*
+    public int compareTo(Cards otherCard) {
+        if (this.rank)
+    }*/
 }
