@@ -14,6 +14,14 @@ public class Player {
     //player has cards in his hand
     private Hand inHand;
 
+    public Player(){
+        this.inHand = new Hand();
+    }
+
+    public Hand getInHand() {
+        return inHand;
+    }
+
     //add cards to the hand
     public void addToHand(Cards card){
         this.inHand.AddCard(card);
