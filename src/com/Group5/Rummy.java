@@ -1,9 +1,10 @@
 package com.Group5;
 
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
 
 //TODO: Add Code to Main(or pseudo)
+//TODO: Add Table class that has a "List of lists" with the things on the table, and an add method
+//that takes int for which list(later also Validation).
 
 public class Rummy {
 
