@@ -1,6 +1,7 @@
 package com.Group5;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by bd2319wv on 3/3/2015.
@@ -19,7 +20,7 @@ public class Table{// implements Comparable<Cards>{
 
     //add to the Array if you add a run
     public static void newMeld(ArrayList<Cards> meld){
-        //meld.sort();
+        Collections.sort(meld);
         tableCards.add(meld);
 
     }
@@ -29,7 +30,7 @@ public class Table{// implements Comparable<Cards>{
         for (Cards c : toAdd) {
             addCardsHere.add(c);
         }
-        //TODO: sort
+        Collections.sort(addCardsHere);
         tableCards.add(addCardsHere);
     }
 }

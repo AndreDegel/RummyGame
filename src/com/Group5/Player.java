@@ -29,7 +29,7 @@ public class Player {
         Table.newMeld(meld);
     }
 
-    //add one or more card(s) to a meld on the table
+    //add one or more card(s) to a lay off on the table
     public void layOff(ArrayList<Cards> layOff, int where){
         Table.addToMeld(layOff, where);
     }
