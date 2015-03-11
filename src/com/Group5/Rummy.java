@@ -15,9 +15,15 @@ public class Rummy {
         LinkedList<Cards> newDeck = deck.makeDeck();
         //Shuffle it
         deck.shuffle(newDeck);
+
+
+
+
+        //good till here:
+        //-----------------------------------------
         //Deal/Show first card of Stack
         deck.deal(newDeck);
 
-
+        System.out.println(newDeck.toString());
     }
 }
