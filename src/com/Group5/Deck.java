@@ -45,14 +45,15 @@ public class Deck {
 
     //Method to deal the Card, which removes the first of the Stack
     //and show it. Also check if there are still cards in the Stack
-    public void deal(LinkedList<Cards> deckCards){
+    public Cards deal(LinkedList<Cards> deckCards){
         //Removes and returns the top card or None
         //if the deck is empty.
         if (deckCards.isEmpty()){
             System.out.println("The deck is empty");
+            return null;
         }
         else {
-            deckCards.pop().toString();
+            return deckCards.pop();
         }
     }
 }
