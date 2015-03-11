@@ -2,8 +2,9 @@ package com.Group5;
 
 import java.util.*;
 
-//TODO: Add Code to Main(or pseudo)
-//TODO: Validate discards is empty.
+//TODO: Finish Main
+//TODO: Create AI
+//TODO: Make Validation......Validate discards is empty.
 
 
 public class Rummy {
