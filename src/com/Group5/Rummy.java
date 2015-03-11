@@ -3,12 +3,15 @@ package com.Group5;
 import java.util.*;
 
 //TODO: Add Code to Main(or pseudo)
-//TODO: Add Table class that has a "List of lists" with the things on the table, and an add method
-//that takes int for which list(later also Validation).
+//TODO: Validate discards is empty.
+
 
 public class Rummy {
 
+    private static Scanner scanner;   //Global scanner used for all input
+
     public static void main(String[] args) {
+        scanner = new Scanner(System.in);
         Player player1 = new Player();
 
         //create a new deck object
@@ -22,13 +25,34 @@ public class Rummy {
             player1.addToHand(deck.deal(newDeck));
         }
         //start discard pile and stock pile
-        Pile stock = new Pile(newDeck);
-        DiscardPile discardPile = new DiscardPile();
-        //System.out.println(player1.getInHand().getAllCards().toString());
+        Pile.stockPile = newDeck;
+        DiscardPile.addToDiscard(Pile.stockPile.pop());
+
+        //
 
         //start the game loop
         while (!player1.getInHand().getAllCards().isEmpty()){
-            //if ()
+            //check that there are still cards in the stockpile if not turn discard
+            if (Pile.stockPile.isEmpty()){
+                DiscardPile.toStockPile();
+            }
+            System.out.println("Players turn.");
+            //Decide where to draw from
+            System.out.println("Where do you would like to draw from?\n1-Stock Pile\n2-Discard Pile");
+            //validate input
+            int answer = isWithinRange(1,2);
+            //draw accordingly
+            if (answer == 1){
+                player1.addToHand(Pile.Draw());
+            }
+            else if (answer == 2){
+                player1.addToHand(DiscardPile.Draw());
+            }
+            //show cards
+            System.out.println(player1.getInHand().getAllCards().toString());
+
+
+
         }
 
 /*
@@ -74,4 +98,24 @@ public class Rummy {
      * if pc hand is empty: GAME OVER! PC wins
      * }
      **/
+
+    //Validation methods
+
+    private static int isWithinRange(int min, int max) {
+
+        while (true) {
+            try {
+                String stringInput = scanner.nextLine();
+                int intInput = Integer.parseInt(stringInput);
+                if (intInput >= min && intInput <= max) {
+                    return intInput;
+                } else {
+                    System.out.println("Please enter a positive number, within the range " + min + " " + max);
+                    continue;
+                }
+            } catch (NumberFormatException ime) {
+                System.out.println("Please type a positive number");
+            }
+        }
+    }
 }

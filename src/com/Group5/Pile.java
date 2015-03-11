@@ -8,13 +8,9 @@ import java.util.Stack;
  * Created by Abdallah on 2/19/2015.
  */
 public class Pile {
-    public LinkedList<Cards> Card;
+    public static LinkedList<Cards> stockPile = new LinkedList<Cards>();
 
-    public Pile(LinkedList<Cards> deck) {
-        this.Card = deck;
-    }
-
-    public Cards Draw() {
-        return this.Card.pop();
+    public static Cards Draw() {
+        return stockPile.pop();
     }
 }

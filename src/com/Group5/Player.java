@@ -28,8 +28,8 @@ public class Player {
     }
 
     //discard card to discard pile
-    public void discardFromHand(Cards card, DiscardPile discard){
-        this.inHand.Discard(card, discard);
+    public void discardFromHand(Cards card){
+        this.inHand.Discard(card);
     }
 
     //Lay out 3 Cards(or take to be added to the table)

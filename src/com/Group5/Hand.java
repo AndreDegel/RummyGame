@@ -24,8 +24,8 @@ public class Hand {
         this.Card.add(card);
     }
 
-    public void Discard(Cards card, DiscardPile discardPile) {
-        discardPile.Card.push(card);
+    public void Discard(Cards card) {
+        DiscardPile.addToDiscard(card);
         Card.remove(card);
     }
 
