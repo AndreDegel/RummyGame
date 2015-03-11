@@ -28,4 +28,39 @@ public class Rummy {
 
         System.out.println(newDeck.toString());
     }
+
+    /**
+     * Start game:
+     *
+     * deal 10 cards to each player
+     * deal next card to start discard pile
+     * place remainder of cards onto stock pile
+     *
+     * while(true) {
+     *
+     * //player plays
+     * if stock pile is empty:
+     * top discard pile card stays
+     * remainder of discard pile goes to stock
+     *
+     * player draws from stock or discard.
+     * "would you like to meld, lay off, or discard?"
+     *
+     * meld:
+     * ...
+     * "choose a card to discard"
+     *
+     * lay off:
+     * ...
+     * "choose a card to discard"
+     *
+     * player discards.
+     *
+     * if player hand is empty: GAME OVER! Player wins
+     *
+     * //TODO: pc plays
+     *
+     * if pc hand is empty: GAME OVER! PC wins
+     * }
+     **/
 }
