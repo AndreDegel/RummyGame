@@ -32,7 +32,7 @@ public class Rummy {
         //
 
         //start the game loop
-        while (!player1.getInHand().getAllCards().isEmpty()){
+        while (!player1.getPlayerHand().getAllCards().isEmpty()){
             //check that there are still cards in the stockpile if not turn discard
             if (Pile.stockPile.isEmpty()){
                 DiscardPile.toStockPile();
@@ -50,7 +50,7 @@ public class Rummy {
                 player1.addToHand(DiscardPile.Draw());
             }
             //show cards
-            System.out.println(player1.getInHand().getAllCards().toString());
+            System.out.println(player1.getPlayerHand().getAllCards().toString());
 
 
 

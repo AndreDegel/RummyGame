@@ -10,24 +10,24 @@ import java.util.ArrayList;
 
 public class Player {
     //player has cards in his hand
-    private Hand inHand;
+    protected Hand playerHand;
 
     public Player(){
-        this.inHand = new Hand();
+        this.playerHand = new Hand();
     }
 
-    public Hand getInHand() {
-        return inHand;
+    public Hand getPlayerHand() {
+        return playerHand;
     }
 
     //add cards to the hand
     public void addToHand(Cards card){
-        this.inHand.AddCard(card);
+        this.playerHand.AddCard(card);
     }
 
     //discard card to discard pile
     public void discardFromHand(Cards card){
-        this.inHand.Discard(card);
+        this.playerHand.Discard(card);
     }
 
     //Lay out 3 Cards(or take to be added to the table)
