@@ -24,4 +24,8 @@ public enum Suit {
     public String getColor() {
         return this.Color;
     }
+
+    public int getSortOrder() {
+        return this.ordinal();
+    }
 }
