@@ -1,6 +1,5 @@
 package com.Group5;
 
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +13,7 @@ public class PCPlayer extends Player {
 
     public PCPlayer() {
         this.playerHand = new Hand();
-        handCards = this.playerHand.getAllCards()
+        handCards = this.playerHand.getAllCards();
     }
 
     /**
@@ -43,10 +42,18 @@ public class PCPlayer extends Player {
         Suit topCardSuit = topCard.getSuit();
 
         //TODO: Decide where to draw from and draw
-        if (hasRank(topCardRank) ||
-                hasRank(topCardRank.getValue() + 1)) {
+        if (
+                hasRank(topCardRank) ||                                 //hand contains same rank as top card
+                (hasCard(new Cards(
+                        Rank.fromValue(topCardRank.getValue() + 1),     //or next rank with same suit
+                        topCardSuit))) ||
+                (hasCard(new Cards(
+                        Rank.fromValue(topCardRank.getValue() - 1),     //or previous rank with same suit
+                        topCardSuit)))
+                ) {
             return DiscardPile.Draw();
-        } else if (
+        } else {
+            return StockPile.Draw();
         }
     }
 

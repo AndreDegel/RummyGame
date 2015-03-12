@@ -1,7 +1,6 @@
 package com.Group5;
 
 import java.util.LinkedList;
-import java.util.Stack;
 
 /**
  * Created by Abdallah on 2/19/2015.
@@ -13,7 +12,7 @@ public class DiscardPile {
         Cards topCard = discardPile.pop();
         while (discardPile.size() > 0) {
             Cards c = discardPile.pop();
-            Pile.stockPile.push(c);
+            StockPile.stockPile.push(c);
         }
         discardPile.push(topCard);
     }
