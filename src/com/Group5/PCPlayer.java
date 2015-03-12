@@ -9,4 +9,18 @@ public class PCPlayer extends Player {
     public PCPlayer() {
         this.playerHand = new Hand();
     }
+
+    /**
+     * PC AI: to be used every time it's the PC player's turn
+     */
+    public void Play() {
+        //TODO: Add AI playing commands
+
+        //Draw
+
+    }
+
+    public Cards Draw() {
+        //TODO: Decide where to draw from and draw
+    }
 }
