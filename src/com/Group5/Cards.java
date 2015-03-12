@@ -11,6 +11,14 @@ public class Cards implements Comparable<Cards> {
         this.suit = suit;
     }
 
+    public Rank getRank() {
+        return this.rank;
+    }
+
+    public Suit getSuit() {
+        return this.suit;
+    }
+
     //Method that returns the string representation of a card.
     @Override
     public String toString(){
