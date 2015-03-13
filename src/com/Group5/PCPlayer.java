@@ -72,9 +72,11 @@ public class PCPlayer extends Player {
                         cardRank, Suit.Hearts)) &&                  //
                     !hand.contains(new Cards(                       //
                         cardRank, Suit.Diamonds)) &&                //
-                            !hand.contains(new Cards(
+
+                    !hand.contains(new Cards(
                         Rank.fromValue(cardRank.getValue() + 1),    //or one with next rank and same suit
                         cardSuit)) &&
+
                     !hand.contains(new Cards(
                         Rank.fromValue(cardRank.getValue() - 1),    //or one with previous rank and same suit
                         cardSuit))) {
