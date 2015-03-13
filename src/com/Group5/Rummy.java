@@ -27,7 +27,7 @@ public class Rummy {
         }
         //start discard pile and stock pile
         StockPile.stockPile = newDeck;
-        DiscardPile.addToDiscard(StockPile.stockPile.pop());
+        DiscardPile.addToDiscard(StockPile.Draw());
 
         //
 

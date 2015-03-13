@@ -37,7 +37,7 @@ public class PCPlayer extends Player {
 
     public Cards DrawCard() {
         //look at top card on discard pile
-        Cards topCard = DiscardPile.discardPile.peek();
+        Cards topCard = DiscardPile.ShowTopCard();
         Rank topCardRank = topCard.getRank();
         Suit topCardSuit = topCard.getSuit();
 

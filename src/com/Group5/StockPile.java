@@ -13,4 +13,8 @@ public class StockPile {
     public static Cards Draw() {
         return stockPile.pop();
     }
+
+    public static void AddCard(Cards card) {
+        stockPile.push(card);
+    }
 }
