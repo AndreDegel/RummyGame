@@ -28,5 +28,8 @@ public class Hand {
         DiscardPile.addToDiscard(card);
         Card.remove(card);
     }
+    public void Remove(Cards card){
+        Card.remove(card);
+    }
 
 }

@@ -31,13 +31,17 @@ public class Rummy {
 
         //
 
-        //start the game loop
+        //start the game loop and run as long as player has cards
         while (!player1.getPlayerHand().getAllCards().isEmpty()){
             //check that there are still cards in the stockpile if not turn discard
             if (StockPile.getStockPile().isEmpty()){
                 DiscardPile.toStockPile();
             }
             System.out.println("Players turn.");
+            //show cards
+            System.out.println(player1.getPlayerHand().getAllCards().toString());
+            // show top of discard
+            System.out.println("The discard pile has a: " + DiscardPile.ShowTopCard());
             //Decide where to draw from
             System.out.println("Where do you would like to draw from?\n1-Stock Pile\n2-Discard Pile");
             //validate input
@@ -51,6 +55,81 @@ public class Rummy {
             }
             //show cards
             System.out.println(player1.getPlayerHand().getAllCards().toString());
+            //give play options
+            System.out.println("What would you like to do?");
+            System.out.println("1-Meld\n2-Lay off\n3-Discard and end Turn");
+            //validate input
+            int play = isWithinRange(1,3);
+            //play accordingly
+            if (play == 1){
+                ArrayList<Cards> meld = new ArrayList<Cards>();
+                //TODO: validations for melding to simplify code
+                while (true) {
+                    System.out.println("Choose at least 3 cards to meld by position!");
+                    //show cards
+                    System.out.println(player1.getPlayerHand().getAllCards().toString());
+
+                    Cards m = player1.getPlayerHand().getCard(isWithinRange(1, player1.getPlayerHand().getAllCards().size())-1);
+                    //if the meld array is empy add card
+                    if (meld.isEmpty()) {
+                        meld.add(m);
+                        player1.getPlayerHand().Remove(m);
+                    }
+                    //if the Suit is the same add
+                    //todo: issues here with card +-1 rank validation
+                    else if (meld.contains(m.getSuit())){
+                        if (m.compareTo(meld.get(0)) != 0 ) {
+                            meld.add(m);
+                            player1.getPlayerHand().Remove(m);
+
+                        }
+                    }
+                    //if the rank is the same add
+                    else if (meld.get(0).getRank() == m.getRank()){
+                        meld.add(m);
+                        player1.getPlayerHand().Remove(m);
+                    }
+                    //else retry
+                    else {
+                        System.out.println("The cards must have the same suit or rank!");
+                        continue;
+                    }
+                    //if player has at least 3 cards give option to continue or quit.
+                    if (meld.size() == 3){
+                        System.out.println("1-Meld now\n2-Add more cards");
+                        int a = isWithinRange(1,2);
+                        if (a == 1){break;}
+                        else {continue;}
+                    }
+                }
+                //meld the array
+                player1.melding(meld);
+
+                //Discard a card
+                System.out.println("You have to discard a Card now");
+                //show cards to discard
+                System.out.println(player1.getPlayerHand().getAllCards().toString());
+                System.out.println("What card you would like to discard? Choose by position!");
+                //let the player put in a number for the card to discard
+                int discard = isWithinRange(1, player1.getPlayerHand().getAllCards().size());
+                //discard that card
+                player1.discardFromHand(player1.getPlayerHand().getCard(discard-1));
+
+            }
+
+            else if (play == 2){
+
+            }
+
+            else {
+                //show cards to discard
+                System.out.println(player1.getPlayerHand().getAllCards().toString());
+                System.out.println("What card you would like to discard? Choose by position!");
+                //let the player put in a number for the card to discard
+                int discard = isWithinRange(1, player1.getPlayerHand().getAllCards().size());
+                //discard that card
+                player1.discardFromHand(player1.getPlayerHand().getCard(discard-1));
+            }
 
 
 
