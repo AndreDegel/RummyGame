@@ -8,7 +8,7 @@ import java.util.Stack;
  * Created by Abdallah on 2/19/2015.
  */
 public class StockPile {
-    public static LinkedList<Cards> stockPile = new LinkedList<Cards>();
+    private static LinkedList<Cards> stockPile = new LinkedList<Cards>();
 
     public static Cards Draw() {
         return stockPile.pop();
@@ -16,5 +16,13 @@ public class StockPile {
 
     public static void AddCard(Cards card) {
         stockPile.push(card);
+    }
+
+    public static LinkedList<Cards> getStockPile() {
+        return stockPile;
+    }
+
+    public static void setStockPile(LinkedList<Cards> cards) {
+        stockPile = cards;
     }
 }

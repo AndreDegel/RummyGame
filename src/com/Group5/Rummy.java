@@ -26,7 +26,7 @@ public class Rummy {
             player1.addToHand(deck.deal(newDeck));
         }
         //start discard pile and stock pile
-        StockPile.stockPile = newDeck;
+        StockPile.setStockPile(newDeck);
         DiscardPile.addToDiscard(StockPile.Draw());
 
         //
@@ -34,7 +34,7 @@ public class Rummy {
         //start the game loop
         while (!player1.getPlayerHand().getAllCards().isEmpty()){
             //check that there are still cards in the stockpile if not turn discard
-            if (StockPile.stockPile.isEmpty()){
+            if (StockPile.getStockPile().isEmpty()){
                 DiscardPile.toStockPile();
             }
             System.out.println("Players turn.");
