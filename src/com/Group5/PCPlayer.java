@@ -9,11 +9,8 @@ import java.util.ArrayList;
  */
 public class PCPlayer extends Player {
 
-    ArrayList<Cards> handCards;
-
     public PCPlayer() {
         this.playerHand = new Hand();
-        handCards = this.playerHand.getAllCards();
     }
 
     /**
@@ -23,7 +20,7 @@ public class PCPlayer extends Player {
         //TODO: Add AI playing commands
 
         //Draw
-
+        Draw();
 
         //Meld if necessary
 
@@ -35,34 +32,62 @@ public class PCPlayer extends Player {
 
     }
 
-    public Cards DrawCard() {
+    private void Draw() {
         //look at top card on discard pile
         Cards topCard = DiscardPile.ShowTopCard();
         Rank topCardRank = topCard.getRank();
         Suit topCardSuit = topCard.getSuit();
 
-        //TODO: Decide where to draw from and draw
         if (
                 hasRank(topCardRank) ||                                 //hand contains same rank as top card
                 (hasCard(new Cards(
-                        Rank.fromValue(topCardRank.getValue() + 1),     //or next rank with same suit
+                        Rank.fromValue(topCardRank.getValue() + 1),     //or card with next rank and same suit
                         topCardSuit))) ||
                 (hasCard(new Cards(
-                        Rank.fromValue(topCardRank.getValue() - 1),     //or previous rank with same suit
+                        Rank.fromValue(topCardRank.getValue() - 1),     //or card with previous rank and same suit
                         topCardSuit)))
                 ) {
-            return DiscardPile.Draw();
+            playerHand.AddCard(DiscardPile.Draw());
         } else {
-            return StockPile.Draw();
+            playerHand.AddCard(StockPile.Draw());
+        }
+    }
+
+    private void Discard() {
+        ArrayList<Cards> hand = playerHand.getAllCards();
+
+        //TODO: figure out which card to discard
+        //TODO: sort ArrayList so that least desired cards are at the front
+        for (int i = 0; i < hand.size(); i++) {
+            Cards card = hand.remove(i);
+            Rank cardRank = card.getRank();
+            Suit cardSuit = card.getSuit();
+
+            if (
+                    !hand.contains(new Cards(                       //does not have another card
+                        cardRank, Suit.Spades)) &&                  // with the same rank
+                    !hand.contains(new Cards(                       //
+                        cardRank, Suit.Clubs)) &&                   //
+                    !hand.contains(new Cards(                       //
+                        cardRank, Suit.Hearts)) &&                  //
+                    !hand.contains(new Cards(                       //
+                        cardRank, Suit.Diamonds)) &&                //
+                            !hand.contains(new Cards(
+                        Rank.fromValue(cardRank.getValue() + 1),    //or one with next rank and same suit
+                        cardSuit)) &&
+                    !hand.contains(new Cards(
+                        Rank.fromValue(cardRank.getValue() - 1),    //or one with previous rank and same suit
+                        cardSuit))) {
+            }
         }
     }
 
     private boolean hasCard(Cards c) {
-        return handCards.contains(c);
+        return playerHand.getAllCards().contains(c);
     }
 
     private boolean hasRank(Rank r) {
-        for (Cards c : handCards) {
+        for (Cards c : playerHand.getAllCards()) {
             if (c.getRank() == r) {
                 return true;
             }
@@ -71,7 +96,7 @@ public class PCPlayer extends Player {
     }
 
     private boolean hasSuit(Suit s) {
-        for (Cards c : handCards) {
+        for (Cards c : playerHand.getAllCards()) {
             if (c.getSuit() == s) {
                 return true;
             }
