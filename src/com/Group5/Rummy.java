@@ -65,23 +65,29 @@ public class Rummy {
                 ArrayList<Cards> meld = new ArrayList<Cards>();
                 //TODO: validations for melding to simplify code
                 while (true) {
-                    System.out.println("Choose at least 3 cards to meld by position!");
+                    System.out.println("Choose at least 3 cards to meld. Card must be +-1 of current to meld!");
                     //show cards
                     System.out.println(player1.getPlayerHand().getAllCards().toString());
 
                     Cards m = player1.getPlayerHand().getCard(isWithinRange(1, player1.getPlayerHand().getAllCards().size())-1);
-                    //if the meld array is empy add card
+                    //if the meld array is empty add card
                     if (meld.isEmpty()) {
                         meld.add(m);
                         player1.getPlayerHand().Remove(m);
                     }
                     //if the Suit is the same add
-                    //todo: issues here with card +-1 rank validation
-                    else if (meld.contains(m.getSuit())){
-                        if (m.compareTo(meld.get(0)) != 0 ) {
-                            meld.add(m);
-                            player1.getPlayerHand().Remove(m);
-
+                    else if (meld.get(0).getSuit() == m.getSuit()){
+                        //if the current cards value is one greater then the last one in the array
+                        if (meld.get(meld.size()-1).getRank().getValue() +1 == m.getRank().getValue()) {
+                            meld.add(m);    //put to meld list
+                            player1.getPlayerHand().Remove(m);  //remove from hand
+                            Collections.sort(meld); //sort meld list
+                        }
+                        //if the current cards value is one less then the first one in the array
+                        else if (meld.get(0).getRank().getValue() -1 == m.getRank().getValue()){
+                            meld.add(m);    //put to meld list
+                            player1.getPlayerHand().Remove(m);  //remove from hand
+                            Collections.sort(meld); //sort meld list
                         }
                     }
                     //if the rank is the same add
@@ -104,6 +110,8 @@ public class Rummy {
                 }
                 //meld the array
                 player1.melding(meld);
+                //TODO: print to test table....remove before finish
+                System.out.println(Table.getTableCards().toString());
 
                 //Discard a card
                 System.out.println("You have to discard a Card now");
