@@ -87,6 +87,9 @@ public class Rummy {
                             System.out.println(endRange + "-to cancel all and return to menu (Will also cancel current meld and put at the end of the hand)");
                             //show cards
                             System.out.println(player1.getPlayerHand().getAllCards().toString());
+                            //show corresponding input numbers
+                            showInput(player1.getPlayerHand().getAllCards());
+
                             //make exit possible and return to menu
                             int i = isWithinRange(1, endRange);
                             if (i == endRange) {
@@ -273,6 +276,14 @@ public class Rummy {
      **/
 
     //Validation methods
+
+    private static void showInput(ArrayList<Cards> toChoose){
+        String input = " ";
+        for (int x = 1; x <= toChoose.size(); x++) {
+            input += x + ",   ";
+        }
+        System.out.println(input);
+    }
 
     private static int isWithinRange(int min, int max) {
 
