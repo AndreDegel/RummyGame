@@ -68,63 +68,71 @@ public class Rummy {
                 //play accordingly
                 if (play == 1) {
                     ArrayList<Cards> meld = new ArrayList<Cards>();
-                    //TODO: validations for melding to simplify code
                     while (!player1.getPlayerHand().getAllCards().isEmpty()) {
+                        //determine number to cancel
+                        int endRange = player1.getPlayerHand().getAllCards().size() + 1;
                         System.out.println("Choose at least 3 cards to meld. Card must be +-1 of current to meld!");
+                        System.out.println(endRange + "-to cancel and return to menu");
                         //show cards
                         System.out.println(player1.getPlayerHand().getAllCards().toString());
+                        //make exit possible and return to menu
+                        int i = isWithinRange(1, endRange);
+                        if (i == endRange) {
+                            break;
+                        } else {
 
-                        Cards m = player1.getPlayerHand().getCard(isWithinRange(1, player1.getPlayerHand().getAllCards().size()) - 1);
-                        //if the meld array is empty add card
-                        if (meld.isEmpty()) {
-                            meld.add(m);
-                            player1.getPlayerHand().Remove(m);
-                        }
-                        //if the Suit is the same add
-                        else if (meld.get(0).getSuit() == m.getSuit()) {
-                            //if the current cards value is one greater then the last one in the array
-                            if (meld.get(meld.size() - 1).getRank().getValue() + 1 == m.getRank().getValue()) {
-                                meld.add(m);    //put to meld list
-                                player1.getPlayerHand().Remove(m);  //remove from hand
-                                Collections.sort(meld); //sort meld list
+                            Cards m = player1.getPlayerHand().getCard(i - 1);
+                            //if the meld array is empty add card
+                            if (meld.isEmpty()) {
+                                meld.add(m);
+                                player1.getPlayerHand().Remove(m);
                             }
-                            //if the current cards value is one less then the first one in the array
-                            else if (meld.get(0).getRank().getValue() - 1 == m.getRank().getValue()) {
-                                meld.add(m);    //put to meld list
-                                player1.getPlayerHand().Remove(m);  //remove from hand
-                                Collections.sort(meld); //sort meld list
+                            //if the Suit is the same add
+                            else if (meld.get(0).getSuit() == m.getSuit()) {
+                                //if the current cards value is one greater then the last one in the array
+                                if (meld.get(meld.size() - 1).getRank().getValue() + 1 == m.getRank().getValue()) {
+                                    meld.add(m);    //put to meld list
+                                    player1.getPlayerHand().Remove(m);  //remove from hand
+                                    Collections.sort(meld); //sort meld list
+                                }
+                                //if the current cards value is one less then the first one in the array
+                                else if (meld.get(0).getRank().getValue() - 1 == m.getRank().getValue()) {
+                                    meld.add(m);    //put to meld list
+                                    player1.getPlayerHand().Remove(m);  //remove from hand
+                                    Collections.sort(meld); //sort meld list
+                                }
                             }
-                        }
-                        //if the rank is the same add
-                        else if (meld.get(0).getRank() == m.getRank()) {
-                            meld.add(m);
-                            player1.getPlayerHand().Remove(m);
-                        }
-                        //else retry
-                        else {
-                            System.out.println("The cards must have the same suit or rank!");
-                            continue;
-                        }
-                        //if player has at least 3 cards give option to continue or quit.
-                        if (meld.size() == 3 || player1.getPlayerHand().getAllCards().isEmpty()) {
-                            System.out.println("1-Meld now\n2-Add more cards");
-                            int a = isWithinRange(1, 2);
-                            if (a == 1) {
-                                //meld the array
-                                player1.melding(meld);
-                                //Discard a card
-                                System.out.println("You have to discard a Card now");
-                                //show cards to discard
-                                System.out.println(player1.getPlayerHand().getAllCards().toString());
-                                System.out.println("What card you would like to discard? Choose by position!");
-                                //let the player put in a number for the card to discard
-                                int discard = isWithinRange(1, player1.getPlayerHand().getAllCards().size());
-                                //discard that card
-                                player1.discardFromHand(player1.getPlayerHand().getCard(discard - 1));
-                                turn = false;
-                                break;
-                            } else {
+                            //if the rank is the same add
+                            else if (meld.get(0).getRank() == m.getRank()) {
+                                meld.add(m);
+                                player1.getPlayerHand().Remove(m);
+                            }
+                            //else retry
+                            else {
+                                System.out.println("The cards must have the same suit or rank!");
                                 continue;
+                            }
+                            //if player has at least 3 cards give option to continue or quit.
+                            if (meld.size() == 3 || player1.getPlayerHand().getAllCards().isEmpty()) {
+                                System.out.println("1-Meld now\n2-Add more cards");
+                                int a = isWithinRange(1, 2);
+                                if (a == 1) {
+                                    //meld the array
+                                    player1.melding(meld);
+                                    //Discard a card
+                                    System.out.println("You have to discard a Card now");
+                                    //show cards to discard
+                                    System.out.println(player1.getPlayerHand().getAllCards().toString());
+                                    System.out.println("What card you would like to discard? Choose by position!");
+                                    //let the player put in a number for the card to discard
+                                    int discard = isWithinRange(1, player1.getPlayerHand().getAllCards().size());
+                                    //discard that card
+                                    player1.discardFromHand(player1.getPlayerHand().getCard(discard - 1));
+                                    turn = false;
+                                    break;
+                                } else {
+                                    continue;
+                                }
                             }
                         }
                     }
