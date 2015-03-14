@@ -55,6 +55,7 @@ public class PCPlayer extends Player {
     }
 
     private void Discard() {
+        //TODO: maybe just discard randomly to make it easier?!
         ArrayList<Cards> hand = playerHand.getAllCards();
 
         ArrayList<Cards> spades = new ArrayList<Cards>();
