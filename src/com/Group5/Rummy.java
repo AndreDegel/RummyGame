@@ -6,8 +6,6 @@ import java.util.*;
 //TODO: Create AI
 //TODO: Make Validation......Validate discards is empty.
 
-//BUGS:
-//TODO: Input ARRAY method to reuse
 
 
 
@@ -85,9 +83,7 @@ public class Rummy {
                             int endRange = player1.getPlayerHand().getAllCards().size() + 1;
                             System.out.println("Choose at least 3 cards to meld. Card must be +-1 of current to meld!");
                             System.out.println(endRange + "-to cancel all and return to menu (Will also cancel current meld and put at the end of the hand)");
-                            //show cards
-                            System.out.println(player1.getPlayerHand().getAllCards().toString());
-                            //show corresponding input numbers
+                            //show cards with corresponding input numbers
                             showInput(player1.getPlayerHand().getAllCards());
 
                             //make exit possible and return to menu
@@ -151,10 +147,12 @@ public class Rummy {
                     }
                     //TODO: print to test table....remove before finish
                     System.out.println(Table.getTableCards().toString());
+
                 //Lay off cards to table
                 } else if (play == 2) {
-                    //TODO: may need clean up
-
+                    //TODO: may need clean up....collect one card per turn may not need array.
+                    //collect cards to lay off
+                    ArrayList<Cards> collect = new ArrayList<Cards>();
                     if (Table.getTableCards().isEmpty()) {
                         System.out.println("Sorry but there are no cards to add to yet");
 
@@ -175,8 +173,9 @@ public class Rummy {
                                 while (true) {
                                     //show player card and to add
                                     System.out.println("Table: " + Table.getTableCards().get(a - 1));
-                                    System.out.println("Your Cards: " + player1.getPlayerHand().getAllCards().toString());
+                                    //System.out.println("Your Cards: " + player1.getPlayerHand().getAllCards().toString());
                                     System.out.println("What card do you want to add here?");
+                                    showInput(player1.getPlayerHand().getAllCards());
                                     //way to cancel out of current lay out.
                                     int endLayOut = player1.getPlayerHand().getAllCards().size() + 1;
                                     System.out.println(endLayOut + "-to cancel and return to table view!");
@@ -193,16 +192,16 @@ public class Rummy {
                                         if (layOff.get(0).getSuit() == l.getSuit()) {
                                             //if the current cards value is one greater then the last one in the array
                                             if (layOff.get(layOff.size() - 1).getRank().getValue() + 1 == l.getRank().getValue()) {
-                                                layOff.add(l);    //put to lay-off array
+                                                collect.add(l);    //put to lay-off array
                                                 player1.getPlayerHand().Remove(l);  //remove from hand
                                             }
                                             //if the current cards value is one less then the first one in the array
                                             else if (layOff.get(0).getRank().getValue() - 1 == l.getRank().getValue()) {
-                                                layOff.add(l);    //put to meld list
+                                                collect.add(l);    //put to meld list
                                                 player1.getPlayerHand().Remove(l);  //remove from hand
                                             }
                                         } else if (layOff.get(0).getRank() == l.getRank()) {
-                                            layOff.add(l);    //put to meld list
+                                            collect.add(l);    //put to meld list
                                             player1.getPlayerHand().Remove(l);  //remove from hand
                                         }
                                         //else retry
@@ -210,6 +209,7 @@ public class Rummy {
                                             System.out.println("The cards must have the same suit or rank!");
                                             continue;
                                         }
+                                        player1.layOff(collect, a-1);
                                         System.out.println("1-Add more to this meld\n2-See other melds or exit");
                                         int b = isWithinRange(1, 2);
                                         if (b != 1) {
@@ -225,9 +225,9 @@ public class Rummy {
 
                 //Discard and finish the turn
                 else {
-                    //show cards to discard
-                    System.out.println(player1.getPlayerHand().getAllCards().toString());
                     System.out.println("What card you would like to discard? Choose by position!");
+                    //show cards to discard
+                    showInput(player1.getPlayerHand().getAllCards());
                     //let the player put in a number for the card to discard
                     int discard = isWithinRange(1, player1.getPlayerHand().getAllCards().size());
                     //discard that card
@@ -280,7 +280,7 @@ public class Rummy {
     private static void showInput(ArrayList<Cards> toChoose){
         String input = " ";
         for (int x = 1; x <= toChoose.size(); x++) {
-            input += x + ",   ";
+            input += x +"-" + toChoose.get(x-1).toString() +", ";
         }
         System.out.println(input);
     }
