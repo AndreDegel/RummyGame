@@ -1,6 +1,7 @@
 package com.Group5;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Player class that represents the Computer player (AI)
@@ -56,31 +57,46 @@ public class PCPlayer extends Player {
     private void Discard() {
         ArrayList<Cards> hand = playerHand.getAllCards();
 
+        ArrayList<Cards> spades = new ArrayList<Cards>();
+        ArrayList<Cards> clubs = new ArrayList<Cards>();
+        ArrayList<Cards> hearts = new ArrayList<Cards>();
+        ArrayList<Cards> diamonds = new ArrayList<Cards>();
+
+
         //TODO: figure out which card to discard
         //TODO: sort ArrayList so that least desired cards are at the front
-        for (int i = 0; i < hand.size(); i++) {
-            Cards card = hand.remove(i);
-            Rank cardRank = card.getRank();
+        for (Cards card : hand) {
+            //Separate hand cards by suit
             Suit cardSuit = card.getSuit();
 
-            if (
-                    !hand.contains(new Cards(                       //does not have another card
-                        cardRank, Suit.Spades)) &&                  // with the same rank
-                    !hand.contains(new Cards(                       //
-                        cardRank, Suit.Clubs)) &&                   //
-                    !hand.contains(new Cards(                       //
-                        cardRank, Suit.Hearts)) &&                  //
-                    !hand.contains(new Cards(                       //
-                        cardRank, Suit.Diamonds)) &&                //
-
-                    !hand.contains(new Cards(
-                        Rank.fromValue(cardRank.getValue() + 1),    //or one with next rank and same suit
-                        cardSuit)) &&
-
-                    !hand.contains(new Cards(
-                        Rank.fromValue(cardRank.getValue() - 1),    //or one with previous rank and same suit
-                        cardSuit))) {
+            switch (cardSuit) {
+                case Spades:
+                    spades.add(card);
+                    break;
+                case Clubs:
+                    clubs.add(card);
+                    break;
+                case Hearts:
+                    hearts.add(card);
+                    break;
+                case Diamonds:
+                    diamonds.add(card);
+                    break;
             }
+        }
+
+        //Sort each group of cards
+        if (!spades.isEmpty()) {
+            Collections.sort(spades);
+        }
+        if (!clubs.isEmpty()) {
+            Collections.sort(clubs);
+        }
+        if (!hearts.isEmpty()) {
+            Collections.sort(hearts);
+        }
+        if (!diamonds.isEmpty()) {
+            Collections.sort(diamonds);
         }
     }
 
