@@ -439,7 +439,6 @@ public class PCPlayer extends Player {
 
                 if (rankSet.size() == 1) {
                     discardable.add(rankSet.get(0));
-                    cardsByRank.remove(rank);
                 }
             }
 
