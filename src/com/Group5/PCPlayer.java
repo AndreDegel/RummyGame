@@ -3,6 +3,7 @@ package com.Group5;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Player class that represents the Computer player (AI)
@@ -249,30 +250,33 @@ public class PCPlayer extends Player {
         System.out.println(playerHand.getAllCards().toString());
     }
 
-    private void Draw() {
-        //look at top card on discard pile
-        Cards topCard = DiscardPile.ShowTopCard();
-        Rank topCardRank = topCard.getRank();
-        Suit topCardSuit = topCard.getSuit();
-
-
-
-        if (
-                hasRank(topCardRank) ||                                 //hand contains same rank as top card
-                hasCard(new Cards(
-                        Rank.fromValue(topCardRank.getValue() + 1),     //or card with next rank and same suit
-                        topCardSuit)) ||
-                hasCard(new Cards(
-                        Rank.fromValue(topCardRank.getValue() - 1),     //or card with previous rank and same suit
-                        topCardSuit))
-                ) {
-            playerHand.AddCard(DiscardPile.Draw());
-        } else {
-            playerHand.AddCard(StockPile.Draw());
-        }
-    }
+//    private void Draw() {
+//        //look at top card on discard pile
+//        Cards topCard = DiscardPile.ShowTopCard();
+//        Rank topCardRank = topCard.getRank();
+//        Suit topCardSuit = topCard.getSuit();
+//
+//
+//
+//        if (
+//                hasRank(topCardRank) ||                                 //hand contains same rank as top card
+//                hasCard(new Cards(
+//                        Rank.fromValue(topCardRank.getValue() + 1),     //or card with next rank and same suit
+//                        topCardSuit)) ||
+//                hasCard(new Cards(
+//                        Rank.fromValue(topCardRank.getValue() - 1),     //or card with previous rank and same suit
+//                        topCardSuit))
+//                ) {
+//            playerHand.AddCard(DiscardPile.Draw());
+//        } else {
+//            playerHand.AddCard(StockPile.Draw());
+//        }
+//    }
 
     private void Discard(HashMap<Suit, ArrayList<Cards>> suitGroups) {
+        Random rand = new Random();
+
+        Cards toDiscard;
         ArrayList<Cards> discardable = new ArrayList<Cards>();
         ArrayList<Cards> reserve = new ArrayList<Cards>();
 
@@ -283,39 +287,121 @@ public class PCPlayer extends Player {
         for (Suit suit : suitGroups.keySet()) {
             ArrayList<Cards> cards = suitGroups.get(suit);
 
-            ArrayList<ArrayList<Cards>> subgroups = new ArrayList<ArrayList<Cards>>();
+            if (!cards.isEmpty()) {
+                Collections.sort(cards);
 
-            int prevCardIndex = 0;                                      //start first card in group
+                ArrayList<ArrayList<Cards>> subgroups = new ArrayList<ArrayList<Cards>>();
 
-            for (int currCardIndex = 1;                                 //loop over the rest of the cards
-                 currCardIndex < cards.size();                          //in the group starting with
-                 currCardIndex++) {                                     //the second card
+                int prevCardIndex = 0;  //start first card in group
+                int startSubgroup = 0;  //initiate subgroup first card index
 
-                Cards prevCard = cards.get(prevCardIndex);
-                Cards currCard = cards.get(currCardIndex);
+                for (int currCardIndex = 1;             //loop over the rest of the cards
+                     currCardIndex < cards.size();      //in the group starting with
+                     currCardIndex++) {                 //the second card
 
-                int prevCardRankValue = prevCard.getRank().getValue();
-                int currCardRankValue = currCard.getRank().getValue();
+                    Cards prevCard = cards.get(prevCardIndex);
+                    Cards currCard = cards.get(currCardIndex);
 
-                int rankDiff = currCardRankValue - prevCardRankValue;
+                    int prevCardRankValue = prevCard.getRank().getValue();
+                    int currCardRankValue = currCard.getRank().getValue();
 
-                if (rankDiff <= 2) {
-                    ArrayList<Cards> putHere;
+                    int rankDiff = currCardRankValue - prevCardRankValue;
 
-                    if(!subgroups.isEmpty()) {
-                        for (int subgroupIX = 0; subgroupIX < subgroups.size(); subgroupIX++) {
+                    //end subgroup and add to subgroups arrayList
+                    if (rankDiff > 2) {
+                        ArrayList<Cards> subgroup = new ArrayList<Cards>();
 
+                        //loop over cards from the start of current subgroup to current card index
+                        for (int subgroupCardIX = startSubgroup;
+                             subgroupCardIX < currCardIndex;
+                             subgroupCardIX++) {
+                            //add each card to new subgroup arrayList
+                            subgroup.add(cards.get(subgroupCardIX));
                         }
-                    } else {
 
+                        subgroups.add(subgroup);        //add new subgroup to arrayList of subgroups
+                        startSubgroup = currCardIndex;  //start new subgroup with current card
                     }
-                } else {
-                    if ()
+
+                    prevCardIndex = currCardIndex;
                 }
 
-                prevCardIndex = currCardIndex;
+                ArrayList<Cards> subgroup = new ArrayList<Cards>();
+
+                //loop over cards from the start of current subgroup to end of suit group
+                for (int subgroupCardIX = startSubgroup;
+                     subgroupCardIX < cards.size();
+                     subgroupCardIX++) {
+                    //add each card to new subgroup arrayList
+                    subgroup.add(cards.get(subgroupCardIX));
+                }
+
+                subgroups.add(subgroup);        //add final subgroup to arrayList of subgroups
+
+                //Subgroups with only one card are not a part of a possible run
+                //thus are added to reserve cards to be matched for a set
+                for (int i = 0; i < subgroups.size(); i++) {
+                    ArrayList<Cards> sg = subgroups.get(i);
+                    if (sg.size() == 1) {
+                        reserve.add(sg.get(0));
+                        subgroups.remove(i);
+                    }
+                }
             }
         }
+
+        //Sort reserve cards
+        Collections.sort(reserve);
+
+        //check reserve cards for set matches (cards with the same rank)
+
+        //Split up reserve cards by rank
+        HashMap<Rank, ArrayList<Cards>> cardsByRank =
+                new HashMap<Rank, ArrayList<Cards>>();
+
+        if (!reserve.isEmpty()) {
+            for (int i = 0; i < reserve.size(); i++) {
+                Cards card = reserve.get(i);
+                Rank cardRank = card.getRank();
+
+                ArrayList<Cards> cards = new ArrayList<Cards>();
+
+                if (cardsByRank.keySet().contains(cardRank)) {
+                    //get cards with same rank
+                    cards = cardsByRank.get(cardRank);
+                }
+
+                cards.add(card);                        //add card to cards with same rank
+                cardsByRank.put(cardRank, cards);       //put all cards with this rank into cardsByRank hashMap
+            }
+
+            //Get cards unmatched for a set and put them in "discardable" arrayList
+            for (Rank rank : cardsByRank.keySet()) {
+                ArrayList<Cards> rankSet = cardsByRank.get(rank);
+
+                if (rankSet.size() == 1) {
+                    discardable.add(rankSet.get(0));
+                    cardsByRank.remove(rank);
+                }
+            }
+
+            if (discardable.isEmpty()) {
+                //if all reserve cards fall into a set then discard random reserve card
+                int randomCard = rand.nextInt(reserve.size());
+                toDiscard = reserve.get(randomCard);
+            } else {
+                //discard random "discardable" card
+                int randomCard = rand.nextInt(discardable.size());
+                toDiscard = discardable.get(randomCard);
+            }
+        } else {
+            //if there are no reserve (all hand cards fall into a potential run)
+            //then discard random card from hand
+            int randomCard = rand.nextInt(playerHand.getAllCards().size());
+            toDiscard = playerHand.getCard(randomCard);
+        }
+
+        playerHand.Discard(toDiscard);  //Discard chosen card
     }
 
     private boolean hasCard(Cards c) {
