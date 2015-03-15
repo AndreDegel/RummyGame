@@ -34,6 +34,7 @@ public class Player {
         Table.newMeld(meld);
     }
 
+    //Todo: could get rid since table is static (twice the same)
     //add one or more card(s) to a lay off on the table
     public void layOff(ArrayList<Cards> layOff, int where){
         Table.addToMeld(layOff, where);

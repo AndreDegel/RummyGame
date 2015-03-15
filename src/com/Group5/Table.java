@@ -25,7 +25,6 @@ public class Table{// implements Comparable<Cards>{
 
     }
 
-    //TODO: may getting rid of that
     public static void addToMeld(ArrayList<Cards> toAdd, int tableCardIndex){
         ArrayList<Cards> addCardsHere = tableCards.remove(tableCardIndex);
         for (Cards c : toAdd) {

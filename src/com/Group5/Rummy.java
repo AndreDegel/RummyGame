@@ -33,15 +33,21 @@ public class Rummy {
 
 
         //start the game loop and run as long as player has cards
-        while (!player1.getPlayerHand().getAllCards().isEmpty() ||
-                !pc.playerHand.getAllCards().isEmpty()){
+        while(true){
+        //(!player1.getPlayerHand().getAllCards().isEmpty() ||
+                //!pc.playerHand.getAllCards().isEmpty()){
+            if (player1.getPlayerHand().getAllCards().isEmpty()){break;}
+
 
             pc.Play();
+
+            if (pc.playerHand.getAllCards().isEmpty()){break;}
 
             //check that there are still cards in the stockpile if not turn discard
             if (StockPile.getStockPile().isEmpty()){
                 DiscardPile.toStockPile();
             }
+            if (player1.getPlayerHand().getAllCards().isEmpty()){break;}
             System.out.println("Players turn.");
             //show cards
             System.out.println(player1.getPlayerHand().getAllCards().toString());
@@ -64,6 +70,8 @@ public class Rummy {
             boolean turnMeld = false;
             //let the player meld, layoff, or just discard in his turn
             while (turn) {
+                if (player1.getPlayerHand().getAllCards().isEmpty()){break;}
+
                 //Show Table
                 System.out.println("On the table is: " + Table.getTableCards().toString());
                 //show cards
@@ -136,23 +144,18 @@ public class Rummy {
                                 }
                                 //if player has at least 3 cards give option to continue or quit.
                                 if (meld.size() == 3 || player1.getPlayerHand().getAllCards().isEmpty()) {
-                                    System.out.println("1-Meld now\n2-Add more cards");
-                                    int a = isWithinRange(1, 2);
-                                    if (a == 1) {
-                                        //meld the array
-                                        player1.melding(meld);
-                                        turnMeld = true;
-                                        break;
-                                    }
+                                    //meld the array
+                                    player1.melding(meld);
+                                    turnMeld = true;
+                                    break;
                                 }
                             }
                         }
                     }
-                    //TODO: print to test table....remove before finish
-                    System.out.println(Table.getTableCards().toString());
 
                 //Lay off cards to table
-                } else if (play == 2) {
+                }
+                else if (play == 2) {
                     //TODO: may need clean up....collect one card per turn may not need array.
                     //collect cards to lay off
                     ArrayList<Cards> collect = new ArrayList<Cards>();
@@ -213,11 +216,7 @@ public class Rummy {
                                             continue;
                                         }
                                         player1.layOff(collect, a-1);
-                                        System.out.println("1-Add more to this meld\n2-See other melds or exit");
-                                        int b = isWithinRange(1, 2);
-                                        if (b != 1) {
-                                            break;
-                                        }
+                                        break;
                                     }
                                 }
                             }
