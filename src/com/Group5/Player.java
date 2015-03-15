@@ -6,7 +6,6 @@ import java.util.ArrayList;
  * Created by Abdallah on 2/19/2015.
  */
 
-//TODO: Add Validator class for rules, like meld at least 3 or meld has run or group.
 
 public class Player {
     //player has cards in his hand

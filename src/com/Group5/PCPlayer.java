@@ -21,10 +21,12 @@ public class PCPlayer extends Player {
      * PC AI: to be used every time it's the PC player's turn
      */
     public void Play() {
-        //TODO: Add AI playing commands
+        System.out.println(DiscardPile.ShowTopCard());
+        System.out.println(playerHand.getAllCards());
 
         //Draw
         Draw();
+
 
         ArrayList<Cards> hand = playerHand.getAllCards();
 
@@ -81,6 +83,8 @@ public class PCPlayer extends Player {
         suitsList.add(diamonds);
 
         //check what it does so far TODO remove later
+        System.out.println("AI after drawing");
+        System.out.println(DiscardPile.ShowTopCard());
         System.out.println(playerHand.getAllCards().toString());
         System.out.println(spades.toString());
         System.out.println(clubs.toString());
@@ -92,12 +96,21 @@ public class PCPlayer extends Player {
         //Meld if necessary
         meld(suitsList);
 
+        //TODO: remove later
+        System.out.println("AI after melding");
+        System.out.println(Table.getTableCards().toString());
+        System.out.println(playerHand.getAllCards().toString());
+
 
         //Lay off if necessary
         Layoff();
-
+        System.out.println("AI after layoff");
+        System.out.println(Table.getTableCards().toString());
+        System.out.println(playerHand.getAllCards().toString());
         //Discard
         Discard(suitGroups);
+        System.out.println(DiscardPile.ShowTopCard());
+        System.out.println(playerHand.getAllCards().toString());
     }
 
     private void Draw() {
@@ -233,9 +246,6 @@ public class PCPlayer extends Player {
 
         }
 
-        //TODO to test....remove later
-        System.out.println(Table.getTableCards().toString());
-        System.out.println(playerHand.getAllCards().toString());
     }
 
     private void Layoff() {
