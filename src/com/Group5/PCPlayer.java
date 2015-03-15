@@ -64,14 +64,97 @@ public class PCPlayer extends Player {
         if (!diamonds.isEmpty()) {
             Collections.sort(diamonds);
         }
-
         HashMap<Suit, ArrayList<Cards>> suitGroups = new HashMap<Suit, ArrayList<Cards>>();
         suitGroups.put(Suit.Spades, spades);
         suitGroups.put(Suit.Clubs, clubs);
         suitGroups.put(Suit.Hearts, hearts);
         suitGroups.put(Suit.Diamonds, diamonds);
 
+
+        //put the suit arrays in a list of lists for better checking.
+        ArrayList<ArrayList<Cards>> suitsList = new ArrayList<ArrayList<Cards>>();
+        suitsList.add(clubs);
+        suitsList.add(spades);
+        suitsList.add(hearts);
+        suitsList.add(diamonds);
+
+        //check what it does so far TODO remove later
+        System.out.println(playerHand.getAllCards().toString());
+        System.out.println(spades.toString());
+        System.out.println(clubs.toString());
+        System.out.println(hearts.toString());
+        System.out.println(diamonds.toString());
+
+
+        //TODO: in the end check for same ranks
         //Meld if necessary
+        ArrayList<Cards> meld = new ArrayList<Cards>();
+        //go through the suit Arrays
+        for (ArrayList<Cards> s : suitsList){
+            //if they have at least 3 cards we can check if we can meld them
+            if (s.size() >=3){
+                for (Cards c : s){
+                                //start with the first card in the array to compare the rest
+                                if (meld.isEmpty()) {
+                                    meld.add(c);
+                                    playerHand.getAllCards().remove(c);
+                                }
+                                //if the current cards value is one greater then the last one in the array
+                                else if (meld.get(meld.size() - 1).getRank().getValue() + 1 == c.getRank().getValue()) {
+                                    meld.add(c);    //put to meld list
+                                    playerHand.getAllCards().remove(c);  //remove from hand
+                                    Collections.sort(meld); //sort meld list
+                                }
+                                //if the current cards value is one less then the first one in the array
+                                else if (meld.get(0).getRank().getValue() - 1 == c.getRank().getValue()) {
+                                    meld.add(c);    //put to meld list
+                                    playerHand.getAllCards().remove(c);  //remove from hand
+                                    Collections.sort(meld); //sort meld list
+                                }
+                                //else retry
+                                else {
+                                    //if we found at least 3 cards to meld stop searching this array
+                                    if (meld.size()>=3){
+                                        break;
+                                    }
+                                    //otherwise put the cards back to the hand if we took them out
+                                    else {
+                                        for (Cards a : meld) {
+                                            if (!playerHand.getAllCards().contains(a)) {
+                                                playerHand.AddCard(a);
+                                            }
+                                        }
+                                        //clear the currend meld list and restart from the current card
+                                        meld.clear();
+                                        meld.add(c);                            //add current card
+                                        playerHand.getAllCards().remove(c);     //remove from hand
+                                    }
+                                }
+
+                }
+                //if we previously or at the end of the last array found
+                //something to meld then meld it and go on
+                if (meld.size() >= 3){
+                    Table.newMeld(meld);
+                    break;
+                }
+                //otherwise we are at the end of the current array
+                //put last checked cards back in the hand and clear the meld
+                else {
+                    for (Cards a : meld) {
+                        if (!playerHand.getAllCards().contains(a)) {
+                            playerHand.AddCard(a);
+                        }
+                    }
+                    meld.clear();
+                }
+            }
+        }
+        //TODO remove later
+        System.out.println(Table.getTableCards().toString());
+        System.out.println(playerHand.getAllCards().toString());
+
+
 
 
         //Lay off if necessary
@@ -87,14 +170,16 @@ public class PCPlayer extends Player {
         Rank topCardRank = topCard.getRank();
         Suit topCardSuit = topCard.getSuit();
 
+
+
         if (
                 hasRank(topCardRank) ||                                 //hand contains same rank as top card
-                (hasCard(new Cards(
+                hasCard(new Cards(
                         Rank.fromValue(topCardRank.getValue() + 1),     //or card with next rank and same suit
-                        topCardSuit))) ||
-                (hasCard(new Cards(
+                        topCardSuit)) ||
+                hasCard(new Cards(
                         Rank.fromValue(topCardRank.getValue() - 1),     //or card with previous rank and same suit
-                        topCardSuit)))
+                        topCardSuit))
                 ) {
             playerHand.AddCard(DiscardPile.Draw());
         } else {
@@ -162,6 +247,7 @@ public class PCPlayer extends Player {
                 doesHaveRank = true;
                 break;
             }
+            i++;
         }
 
         return doesHaveRank;
@@ -177,6 +263,7 @@ public class PCPlayer extends Player {
                 doesHaveSuit = true;
                 break;
             }
+            i++;
         }
 
         return doesHaveSuit;

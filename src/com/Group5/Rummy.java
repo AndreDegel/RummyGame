@@ -6,6 +6,7 @@ import java.util.*;
 //TODO: Create AI
 //TODO: Make Validation......Validate discards is empty.
 
+//
 
 
 
@@ -16,6 +17,7 @@ public class Rummy {
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
         Player player1 = new Player();
+        PCPlayer pc = new PCPlayer();
 
         //create a new deck object
         Deck deck = new Deck();
@@ -26,12 +28,14 @@ public class Rummy {
         //deal 10 cards to player
         for (int x = 0; x < 10; x++){
             player1.addToHand(deck.deal(newDeck));
+            pc.addToHand(deck.deal(newDeck));
         }
         //start discard pile and stock pile
         StockPile.setStockPile(newDeck);
         DiscardPile.addToDiscard(StockPile.Draw());
 
-        //
+
+        pc.Play();
 
         //start the game loop and run as long as player has cards
         while (!player1.getPlayerHand().getAllCards().isEmpty()){
