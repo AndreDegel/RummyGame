@@ -2,12 +2,7 @@ package com.Group5;
 
 import java.util.*;
 
-//TODO: Finish Main
-//TODO: Create AI
-//TODO: Make Validation......Validate discards is empty.
-
-//
-
+//TODO: check validation when last 3 cards are melded and layout
 
 
 public class Rummy {
@@ -35,10 +30,14 @@ public class Rummy {
         DiscardPile.addToDiscard(StockPile.Draw());
 
 
-        pc.Play();
+
 
         //start the game loop and run as long as player has cards
-        while (!player1.getPlayerHand().getAllCards().isEmpty()){
+        while (!player1.getPlayerHand().getAllCards().isEmpty() ||
+                !pc.playerHand.getAllCards().isEmpty()){
+
+            pc.Play();
+
             //check that there are still cards in the stockpile if not turn discard
             if (StockPile.getStockPile().isEmpty()){
                 DiscardPile.toStockPile();
@@ -241,7 +240,14 @@ public class Rummy {
             }
 
         }
-        System.out.println("You Win thanks for playing.");
+
+        if (player1.getPlayerHand().getAllCards().isEmpty()) {
+            System.out.println("Congratulations! You Win!");
+        }
+        else{
+            System.out.println("Sorry! The Computer won!");
+        }
+        System.out.println("Thank you for playing.");
     }
 
     /**
@@ -273,7 +279,7 @@ public class Rummy {
      *
      * if player hand is empty: GAME OVER! Player wins
      *
-     * //TODO: pc plays
+     *
      *
      * if pc hand is empty: GAME OVER! PC wins
      * }
