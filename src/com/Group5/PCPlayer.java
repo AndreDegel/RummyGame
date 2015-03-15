@@ -128,18 +128,6 @@ public class PCPlayer extends Player {
         if (!draw){
             playerHand.AddCard(StockPile.Draw());
         }
-
-        //TODO: I leave that here cause I didn't now if you used the hasRank and so methods somewhere else
-        //TODO: if not to find them and clean up!!!!!!
-        /*if (
-                hasRank(topCardRank) ||                                 //hand contains same rank as top card
-                hasCard(new Cards(
-                        Rank.fromValue(topCardRank.getValue() + 1),     //or card with next rank and same suit
-                        topCardSuit)) ||
-                hasCard(new Cards(
-                        Rank.fromValue(topCardRank.getValue() - 1),     //or card with previous rank and same suit
-                        topCardSuit))
-        }*/
     }
 
     private void meld(ArrayList<ArrayList<Cards>> suitsList){
@@ -249,29 +237,6 @@ public class PCPlayer extends Player {
         System.out.println(Table.getTableCards().toString());
         System.out.println(playerHand.getAllCards().toString());
     }
-
-//    private void Draw() {
-//        //look at top card on discard pile
-//        Cards topCard = DiscardPile.ShowTopCard();
-//        Rank topCardRank = topCard.getRank();
-//        Suit topCardSuit = topCard.getSuit();
-//
-//
-//
-//        if (
-//                hasRank(topCardRank) ||                                 //hand contains same rank as top card
-//                hasCard(new Cards(
-//                        Rank.fromValue(topCardRank.getValue() + 1),     //or card with next rank and same suit
-//                        topCardSuit)) ||
-//                hasCard(new Cards(
-//                        Rank.fromValue(topCardRank.getValue() - 1),     //or card with previous rank and same suit
-//                        topCardSuit))
-//                ) {
-//            playerHand.AddCard(DiscardPile.Draw());
-//        } else {
-//            playerHand.AddCard(StockPile.Draw());
-//        }
-//    }
 
     private void Layoff() {
         ArrayList<ArrayList<Cards>> table = Table.getTableCards();
@@ -459,41 +424,5 @@ public class PCPlayer extends Player {
         }
 
         playerHand.Discard(toDiscard);  //Discard chosen card
-    }
-
-    private boolean hasCard(Cards c) {
-        return playerHand.getAllCards().contains(c);
-    }
-
-    private boolean hasRank(Rank r) {
-        boolean doesHaveRank = false;
-
-        int i = 0;
-        while (i < playerHand.getAllCards().size()) {
-            Cards c = playerHand.getCard(i);
-            if (c.getRank() == r) {
-                doesHaveRank = true;
-                break;
-            }
-            i++;
-        }
-
-        return doesHaveRank;
-    }
-
-    private boolean hasSuit(Suit s) {
-        boolean doesHaveSuit = false;
-
-        int i = 0;
-        while (i < playerHand.getAllCards().size()) {
-            Cards c = playerHand.getCard(i);
-            if (c.getSuit() == s) {
-                doesHaveSuit = true;
-                break;
-            }
-            i++;
-        }
-
-        return doesHaveSuit;
     }
 }
