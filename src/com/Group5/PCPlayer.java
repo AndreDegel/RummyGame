@@ -102,11 +102,6 @@ public class PCPlayer extends Player {
     private void Draw() {
         //look at top card on discard pile
         Cards topCard = DiscardPile.ShowTopCard();
-
-
-        System.out.println(DiscardPile.ShowTopCard().toString());
-        System.out.println(playerHand.getAllCards().toString());
-
         //check if already drawn from discard
         boolean draw = false;
         //go through all cards in the hand
@@ -120,7 +115,6 @@ public class PCPlayer extends Player {
                     draw = true;        //we drew
                     break;              //and break
                 }
-
             }
             //if the suit is not the same see if we can add it to make a set
             else if (c.getRank() == topCard.getRank()){
@@ -144,10 +138,6 @@ public class PCPlayer extends Player {
                 hasCard(new Cards(
                         Rank.fromValue(topCardRank.getValue() - 1),     //or card with previous rank and same suit
                         topCardSuit))
-                ) {
-            playerHand.AddCard(DiscardPile.Draw());
-        } else {
-            playerHand.AddCard(StockPile.Draw());
         }*/
     }
 
