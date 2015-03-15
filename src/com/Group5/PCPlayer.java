@@ -198,7 +198,7 @@ public class PCPlayer extends Player {
         for (Suit suit : suitGroups.keySet()) {
             ArrayList<Cards> cards = suitGroups.get(suit);
 
-            HashMap<String, ArrayList<Cards>> subgroups = new HashMap<String, ArrayList<Cards>>();
+            ArrayList<ArrayList<Cards>> subgroups = new ArrayList<ArrayList<Cards>>();
 
             int prevCardIndex = 0;                                      //start first card in group
 
@@ -215,18 +215,17 @@ public class PCPlayer extends Player {
                 int rankDiff = currCardRankValue - prevCardRankValue;
 
                 if (rankDiff <= 2) {
-                    ArrayList<Cards>
-                    String subgroupName = null;
-                    for (String name : subgroups.keySet()) {
-                        ArrayList<Cards> subgroup = subgroups.get(name);
-                        if (subgroup.contains(prevCard)) {
-                            subgroupName = name;
-                        }
-                    }
+                    ArrayList<Cards> putHere;
 
-                    if (subgroupName == null) {
-                        //TODO
+                    if(!subgroups.isEmpty()) {
+                        for (int subgroupIX = 0; subgroupIX < subgroups.size(); subgroupIX++) {
+
+                        }
+                    } else {
+
                     }
+                } else {
+                    if ()
                 }
 
                 prevCardIndex = currCardIndex;
