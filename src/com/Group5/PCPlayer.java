@@ -88,6 +88,10 @@ public class PCPlayer extends Player {
 
         //TODO: in the end check for same ranks
         //Meld if necessary
+
+        //check if run worked otherwise look for set
+        boolean run = false;
+        //make arraylist to put meld in
         ArrayList<Cards> meld = new ArrayList<Cards>();
         //go through the suit Arrays
         for (ArrayList<Cards> s : suitsList){
@@ -136,6 +140,7 @@ public class PCPlayer extends Player {
                 //something to meld then meld it and go on
                 if (meld.size() >= 3){
                     Table.newMeld(meld);
+                    run = true;
                     break;
                 }
                 //otherwise we are at the end of the current array
@@ -150,6 +155,44 @@ public class PCPlayer extends Player {
                 }
             }
         }
+
+        //check for a set if no run
+        if (!run){
+            //sort the hand to better check for sets
+            Collections.sort(playerHand.getAllCards());
+
+            //TODO: check later (after work) may can be used meld
+            ArrayList<Cards> set = new ArrayList<Cards>();
+            for (Cards s : playerHand.getAllCards()){
+                //start with the first card in the array to compare the rest
+                if (set.isEmpty()) {
+                    set.add(s);
+                }
+                //if the rank is the same add
+                else if (set.get(0).getRank() == s.getRank()) {
+                    set.add(s);
+                }
+                //otherwise put the cards back to the hand if we took them out
+                else {
+                    //clear the current set list and restart from the current card
+                    set.clear();
+                    set.add(s);
+                }
+                //if we have a set of 3 (first occurrence)
+                if (set.size() >= 3){
+                    //meld it
+                    Table.newMeld(set);
+                    //and remove the cards from the set out of the hand
+                    for (Cards a : set) {
+                        playerHand.getAllCards().remove(a);
+                    }
+                    //stop loop
+                    break;
+                }
+            }
+
+        }
+
         //TODO remove later
         System.out.println(Table.getTableCards().toString());
         System.out.println(playerHand.getAllCards().toString());
@@ -215,7 +258,7 @@ public class PCPlayer extends Player {
                 int rankDiff = currCardRankValue - prevCardRankValue;
 
                 if (rankDiff <= 2) {
-                    ArrayList<Cards>
+                    //ArrayList<Cards>
                     String subgroupName = null;
                     for (String name : subgroups.keySet()) {
                         ArrayList<Cards> subgroup = subgroups.get(name);
