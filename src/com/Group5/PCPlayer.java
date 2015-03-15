@@ -86,117 +86,9 @@ public class PCPlayer extends Player {
         System.out.println(diamonds.toString());
 
 
-        //TODO: in the end check for same ranks
+
         //Meld if necessary
-
-        //check if run worked otherwise look for set
-        boolean run = false;
-        //make arraylist to put meld in
-        ArrayList<Cards> meld = new ArrayList<Cards>();
-        //go through the suit Arrays
-        for (ArrayList<Cards> s : suitsList){
-            //if they have at least 3 cards we can check if we can meld them
-            if (s.size() >=3){
-                for (Cards c : s){
-                                //start with the first card in the array to compare the rest
-                                if (meld.isEmpty()) {
-                                    meld.add(c);
-                                    playerHand.getAllCards().remove(c);
-                                }
-                                //if the current cards value is one greater then the last one in the array
-                                else if (meld.get(meld.size() - 1).getRank().getValue() + 1 == c.getRank().getValue()) {
-                                    meld.add(c);    //put to meld list
-                                    playerHand.getAllCards().remove(c);  //remove from hand
-                                    Collections.sort(meld); //sort meld list
-                                }
-                                //if the current cards value is one less then the first one in the array
-                                else if (meld.get(0).getRank().getValue() - 1 == c.getRank().getValue()) {
-                                    meld.add(c);    //put to meld list
-                                    playerHand.getAllCards().remove(c);  //remove from hand
-                                    Collections.sort(meld); //sort meld list
-                                }
-                                //else retry
-                                else {
-                                    //if we found at least 3 cards to meld stop searching this array
-                                    if (meld.size()>=3){
-                                        break;
-                                    }
-                                    //otherwise put the cards back to the hand if we took them out
-                                    else {
-                                        for (Cards a : meld) {
-                                            if (!playerHand.getAllCards().contains(a)) {
-                                                playerHand.AddCard(a);
-                                            }
-                                        }
-                                        //clear the currend meld list and restart from the current card
-                                        meld.clear();
-                                        meld.add(c);                            //add current card
-                                        playerHand.getAllCards().remove(c);     //remove from hand
-                                    }
-                                }
-
-                }
-                //if we previously or at the end of the last array found
-                //something to meld then meld it and go on
-                if (meld.size() >= 3){
-                    Table.newMeld(meld);
-                    run = true;
-                    break;
-                }
-                //otherwise we are at the end of the current array
-                //put last checked cards back in the hand and clear the meld
-                else {
-                    for (Cards a : meld) {
-                        if (!playerHand.getAllCards().contains(a)) {
-                            playerHand.AddCard(a);
-                        }
-                    }
-                    meld.clear();
-                }
-            }
-        }
-
-        //check for a set if no run
-        if (!run){
-            //sort the hand to better check for sets
-            Collections.sort(playerHand.getAllCards());
-
-            //TODO: check later (after work) may can be used meld
-            ArrayList<Cards> set = new ArrayList<Cards>();
-            for (Cards s : playerHand.getAllCards()){
-                //start with the first card in the array to compare the rest
-                if (set.isEmpty()) {
-                    set.add(s);
-                }
-                //if the rank is the same add
-                else if (set.get(0).getRank() == s.getRank()) {
-                    set.add(s);
-                }
-                //otherwise put the cards back to the hand if we took them out
-                else {
-                    //clear the current set list and restart from the current card
-                    set.clear();
-                    set.add(s);
-                }
-                //if we have a set of 3 (first occurrence)
-                if (set.size() >= 3){
-                    //meld it
-                    Table.newMeld(set);
-                    //and remove the cards from the set out of the hand
-                    for (Cards a : set) {
-                        playerHand.getAllCards().remove(a);
-                    }
-                    //stop loop
-                    break;
-                }
-            }
-
-        }
-
-        //TODO remove later
-        System.out.println(Table.getTableCards().toString());
-        System.out.println(playerHand.getAllCards().toString());
-
+        meld(suitsList);
 
 
 
@@ -228,6 +120,114 @@ public class PCPlayer extends Player {
         } else {
             playerHand.AddCard(StockPile.Draw());
         }
+    }
+
+    private void meld(ArrayList<ArrayList<Cards>> suitsList){
+        //check if run worked otherwise look for set
+        boolean run = false;
+        //make arraylist to put meld in
+        ArrayList<Cards> meld = new ArrayList<Cards>();
+        //go through the suit Arrays
+        for (ArrayList<Cards> s : suitsList){
+            //if they have at least 3 cards we can check if we can meld them
+            if (s.size() >=3){
+                for (Cards c : s){
+                    //start with the first card in the array to compare the rest
+                    if (meld.isEmpty()) {
+                        meld.add(c);
+                        playerHand.getAllCards().remove(c);
+                    }
+                    //if the current cards value is one greater then the last one in the array
+                    else if (meld.get(meld.size() - 1).getRank().getValue() + 1 == c.getRank().getValue()) {
+                        meld.add(c);    //put to meld list
+                        playerHand.getAllCards().remove(c);  //remove from hand
+                        Collections.sort(meld); //sort meld list
+                    }
+                    //if the current cards value is one less then the first one in the array
+                    else if (meld.get(0).getRank().getValue() - 1 == c.getRank().getValue()) {
+                        meld.add(c);    //put to meld list
+                        playerHand.getAllCards().remove(c);  //remove from hand
+                        Collections.sort(meld); //sort meld list
+                    }
+                    //else retry
+                    else {
+                        //if we found at least 3 cards to meld stop searching this array
+                        if (meld.size()>=3){
+                            break;
+                        }
+                        //otherwise put the cards back to the hand if we took them out
+                        else {
+                            for (Cards a : meld) {
+                                if (!playerHand.getAllCards().contains(a)) {
+                                    playerHand.AddCard(a);
+                                }
+                            }
+                            //clear the currend meld list and restart from the current card
+                            meld.clear();
+                            meld.add(c);                            //add current card
+                            playerHand.getAllCards().remove(c);     //remove from hand
+                        }
+                    }
+
+                }
+                //if we previously or at the end of the last array found
+                //something to meld then meld it and go on
+                if (meld.size() >= 3){
+                    Table.newMeld(meld);
+                    run = true;
+                    break;
+                }
+                //otherwise we are at the end of the current array
+                //put last checked cards back in the hand and clear the meld
+                else {
+                    for (Cards a : meld) {
+                        if (!playerHand.getAllCards().contains(a)) {
+                            playerHand.AddCard(a);
+                        }
+                    }
+                    meld.clear();
+                }
+            }
+        }
+
+        //check for a set if no run
+        if (!run){
+            //sort the hand to better check for sets
+            Collections.sort(playerHand.getAllCards());
+            //Iterate over all cards to see if it has a set to meld (reuse meld variable)
+            for (Cards s : playerHand.getAllCards()){
+                //start with the first card in the array to compare the rest
+                if (meld.isEmpty()) {
+                    meld.add(s);
+                }
+                //if the rank is the same add
+                else if (meld.get(0).getRank() == s.getRank()) {
+                    meld.add(s);
+                }
+                //otherwise put the cards back to the hand if we took them out
+                else {
+                    //clear the current set list and restart from the current card
+                    meld.clear();
+                    meld.add(s);
+                }
+                //if we have a set of 3 (first occurrence)
+                if (meld.size() >= 3){
+                    //meld it
+                    Table.newMeld(meld);
+                    //and remove the cards from the set out of the hand
+                    for (Cards a : meld) {
+                        playerHand.getAllCards().remove(a);
+                    }
+                    //stop loop
+                    break;
+                }
+            }
+
+        }
+
+        //TODO to test....remove later
+        System.out.println(Table.getTableCards().toString());
+        System.out.println(playerHand.getAllCards().toString());
     }
 
     private void Discard(HashMap<Suit, ArrayList<Cards>> suitGroups) {
