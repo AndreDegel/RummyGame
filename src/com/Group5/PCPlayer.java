@@ -102,12 +102,41 @@ public class PCPlayer extends Player {
     private void Draw() {
         //look at top card on discard pile
         Cards topCard = DiscardPile.ShowTopCard();
-        Rank topCardRank = topCard.getRank();
-        Suit topCardSuit = topCard.getSuit();
 
 
+        System.out.println(DiscardPile.ShowTopCard().toString());
+        System.out.println(playerHand.getAllCards().toString());
 
-        if (
+        //check if already drawn from discard
+        boolean draw = false;
+        //go through all cards in the hand
+        for (Cards c : playerHand.getAllCards()){
+            //if discard top and hand have the same suit
+            if (c.getSuit() == topCard.getSuit()) {
+                //see if we can add discard to hand to get a run
+                if (c.getRank().getValue() + 1 == topCard.getRank().getValue() ||
+                        c.getRank().getValue() - 1 == topCard.getRank().getValue()) {
+                    playerHand.AddCard(DiscardPile.Draw());     //draw
+                    draw = true;        //we drew
+                    break;              //and break
+                }
+
+            }
+            //if the suit is not the same see if we can add it to make a set
+            else if (c.getRank() == topCard.getRank()){
+                playerHand.AddCard(DiscardPile.Draw());     //draw
+                draw = true;        //we drew
+                break;              //and break
+            }
+        }
+        //if we didn't draw from the discard pile we take from the stock
+        if (!draw){
+            playerHand.AddCard(StockPile.Draw());
+        }
+
+        //TODO: I leave that here cause I didn't now if you used the hasRank and so methods somewhere else
+        //TODO: if not to find them and clean up!!!!!!
+        /*if (
                 hasRank(topCardRank) ||                                 //hand contains same rank as top card
                 hasCard(new Cards(
                         Rank.fromValue(topCardRank.getValue() + 1),     //or card with next rank and same suit
@@ -119,7 +148,7 @@ public class PCPlayer extends Player {
             playerHand.AddCard(DiscardPile.Draw());
         } else {
             playerHand.AddCard(StockPile.Draw());
-        }
+        }*/
     }
 
     private void meld(ArrayList<ArrayList<Cards>> suitsList){
