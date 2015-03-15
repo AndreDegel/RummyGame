@@ -97,7 +97,7 @@ public class PCPlayer extends Player {
 
 
         //Discard
-
+        Discard(suitGroups);
     }
 
     private void Draw() {
