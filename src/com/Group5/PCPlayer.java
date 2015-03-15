@@ -1,5 +1,6 @@
 package com.Group5;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -92,9 +93,8 @@ public class PCPlayer extends Player {
         meld(suitsList);
 
 
-
         //Lay off if necessary
-
+        Layoff();
 
         //Discard
         Discard(suitGroups);
@@ -182,7 +182,7 @@ public class PCPlayer extends Player {
                                     playerHand.AddCard(a);
                                 }
                             }
-                            //clear the currend meld list and restart from the current card
+                            //clear the current meld list and restart from the current card
                             meld.clear();
                             meld.add(c);                            //add current card
                             playerHand.getAllCards().remove(c);     //remove from hand
@@ -272,6 +272,64 @@ public class PCPlayer extends Player {
 //            playerHand.AddCard(StockPile.Draw());
 //        }
 //    }
+
+    private void Layoff() {
+        ArrayList<ArrayList<Cards>> table = Table.getTableCards();
+
+        for (int x = 0; x < table.size(); x++) {
+            //loop through melds on the table
+            ArrayList<Cards> meld = table.get(x);
+
+            Collections.sort(meld);
+
+            ArrayList<Cards> toLayoff = new ArrayList<Cards>();
+
+            Cards firstCard = meld.get(0);
+            Cards lastCard = meld.get(meld.size() - 1);
+
+            //get first and last rank values
+            int firstCardValue = firstCard.getRank().getValue();
+            int lastCardValue = lastCard.getRank().getValue();
+
+            if (firstCardValue == lastCardValue) {
+                //same value means different suits (this is a set)
+                for (Cards c : playerHand.getAllCards()) {
+                    if (c.getRank().getValue() == firstCardValue) {
+                        //card is a valid layoff card
+                        toLayoff.add(c);
+                    }
+                }
+            } else {
+                //different values means same suit (this is a run)
+
+                //calculate values for higher and lower layoff cards
+                int higherLayoff = lastCardValue + 1;
+                int lowerLayoff = firstCardValue - 1;
+
+                for (Cards c : playerHand.getAllCards()) {
+                    int currCardValue = c.getRank().getValue();
+
+                    if (currCardValue == lowerLayoff) {
+                        //current card is one rank lower than first card in meld
+                        toLayoff.add(c);
+                        lowerLayoff--;  //higher layoff value increases by one
+                    } else if (currCardValue == higherLayoff) {
+                        //current card is one rank higher than last card in meld
+                        toLayoff.add(c);
+                        higherLayoff++; //lower layoff value decreases by one
+                    }
+                }
+            }
+
+            for (Cards c : toLayoff) {
+                //remove cards to layoff from hand
+                playerHand.Remove(c);
+            }
+
+            //layOff cards to table
+            layOff(toLayoff, x);
+        }
+    }
 
     private void Discard(HashMap<Suit, ArrayList<Cards>> suitGroups) {
         Random rand = new Random();

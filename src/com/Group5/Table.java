@@ -11,7 +11,7 @@ import java.util.Collections;
  * and doesn't need to be instantiated.
  */
 public class Table{// implements Comparable<Cards>{
-    public static ArrayList<ArrayList<Cards>> tableCards = new ArrayList<ArrayList<Cards>>();
+    private static ArrayList<ArrayList<Cards>> tableCards = new ArrayList<ArrayList<Cards>>();
 
     //see (get) whatever is on the table
     public static ArrayList<ArrayList<Cards>> getTableCards() {
