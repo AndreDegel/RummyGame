@@ -215,6 +215,7 @@ public class PCPlayer extends Player {
                 int rankDiff = currCardRankValue - prevCardRankValue;
 
                 if (rankDiff <= 2) {
+                    ArrayList<Cards>
                     String subgroupName = null;
                     for (String name : subgroups.keySet()) {
                         ArrayList<Cards> subgroup = subgroups.get(name);
@@ -224,7 +225,7 @@ public class PCPlayer extends Player {
                     }
 
                     if (subgroupName == null) {
-
+                        //TODO
                     }
                 }
 
