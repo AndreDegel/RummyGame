@@ -276,6 +276,7 @@ public class PCPlayer extends Player {
                 }
             } else {
                 //different values means same suit (this is a run)
+                Suit firstCardSuit = firstCard.getSuit();
 
                 //calculate values for higher and lower layoff cards
                 int higherLayoff = lastCardValue + 1;
@@ -284,14 +285,17 @@ public class PCPlayer extends Player {
                 for (Cards c : playerHand.getAllCards()) {
                     int currCardValue = c.getRank().getValue();
 
-                    if (currCardValue == lowerLayoff) {
-                        //current card is one rank lower than first card in meld
-                        toLayoff.add(c);
-                        lowerLayoff--;  //higher layoff value increases by one
-                    } else if (currCardValue == higherLayoff) {
-                        //current card is one rank higher than last card in meld
-                        toLayoff.add(c);
-                        higherLayoff++; //lower layoff value decreases by one
+                    if (c.getSuit() == firstCardSuit) {
+                        //card must have same suit
+                        if (currCardValue == lowerLayoff) {
+                            //current card is one rank lower than first card in meld
+                            toLayoff.add(c);
+                            lowerLayoff--;  //higher layoff value increases by one
+                        } else if (currCardValue == higherLayoff) {
+                            //current card is one rank higher than last card in meld
+                            toLayoff.add(c);
+                            higherLayoff++; //lower layoff value decreases by one
+                        }
                     }
                 }
             }
