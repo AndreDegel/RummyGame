@@ -212,6 +212,8 @@ public class Rummy {
                                             continue;
                                         }
                                         player1.layOff(collect, a-1);
+                                        //clear array for another round
+                                        collect.clear();
                                         break;
                                     }
                                 }
