@@ -87,6 +87,7 @@ public class PCPlayer extends Player {
 
         //Discard
         Discard(suitGroups);
+
     }
 
     private void Draw() {
@@ -286,7 +287,7 @@ public class PCPlayer extends Player {
             }
 
             //layOff cards to table
-            layOff(toLayoff, x);
+            Table.addToMeld(toLayoff, x);
             System.out.println("PC laid off some cards to table.");
         }
     }
@@ -412,8 +413,14 @@ public class PCPlayer extends Player {
         } else {
             //if there are no reserve (all hand cards fall into a potential run)
             //then discard random card from hand
-            int randomCard = rand.nextInt(playerHand.getAllCards().size());
-            toDiscard = playerHand.getCard(randomCard);
+            if (playerHand.getAllCards().isEmpty()){
+                toDiscard = null;
+
+            }
+            else {
+                int randomCard = rand.nextInt(playerHand.getAllCards().size());
+                toDiscard = playerHand.getCard(randomCard);
+            }
         }
 
         playerHand.Discard(toDiscard);  //Discard chosen card
