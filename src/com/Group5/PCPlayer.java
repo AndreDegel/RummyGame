@@ -20,8 +20,6 @@ public class PCPlayer extends Player {
      * PC AI: to be used every time it's the PC player's turn
      */
     public void Play() {
-        System.out.println(DiscardPile.ShowTopCard());
-        System.out.println(playerHand.getAllCards());
 
         //Draw
         Draw();
@@ -81,35 +79,15 @@ public class PCPlayer extends Player {
         suitsList.add(hearts);
         suitsList.add(diamonds);
 
-        //check what it does so far TODO remove later
-        System.out.println("AI after drawing");
-        System.out.println(DiscardPile.ShowTopCard());
-        System.out.println(playerHand.getAllCards().toString());
-        System.out.println(spades.toString());
-        System.out.println(clubs.toString());
-        System.out.println(hearts.toString());
-        System.out.println(diamonds.toString());
-
-
-
         //Meld if necessary
         meld(suitsList);
 
-        //TODO: remove later
-        System.out.println("AI after melding");
-        System.out.println(Table.getTableCards().toString());
-        System.out.println(playerHand.getAllCards().toString());
-
-
         //Lay off if necessary
         Layoff();
-        System.out.println("AI after layoff");
-        System.out.println(Table.getTableCards().toString());
-        System.out.println(playerHand.getAllCards().toString());
+
         //Discard
         Discard(suitGroups);
-        System.out.println(DiscardPile.ShowTopCard());
-        System.out.println(playerHand.getAllCards().toString());
+
     }
 
     private void Draw() {
@@ -305,7 +283,7 @@ public class PCPlayer extends Player {
             }
 
             //layOff cards to table
-            layOff(toLayoff, x);
+            Table.addToMeld(toLayoff, x);
         }
     }
 
@@ -430,8 +408,14 @@ public class PCPlayer extends Player {
         } else {
             //if there are no reserve (all hand cards fall into a potential run)
             //then discard random card from hand
-            int randomCard = rand.nextInt(playerHand.getAllCards().size());
-            toDiscard = playerHand.getCard(randomCard);
+            if (playerHand.getAllCards().isEmpty()){
+                toDiscard = null;
+
+            }
+            else {
+                int randomCard = rand.nextInt(playerHand.getAllCards().size());
+                toDiscard = playerHand.getCard(randomCard);
+            }
         }
 
         playerHand.Discard(toDiscard);  //Discard chosen card

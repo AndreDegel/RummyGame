@@ -32,12 +32,6 @@ public class Rummy {
 
         //start the game loop and run as long as player has cards
         while(true){
-        //(!player1.getPlayerHand().getAllCards().isEmpty() ||
-                //!pc.playerHand.getAllCards().isEmpty()){
-
-
-
-
 
             //check that there are still cards in the stockpile if not turn discard
             if (StockPile.getStockPile().isEmpty()){
@@ -152,7 +146,6 @@ public class Rummy {
                 //Lay off cards to table
                 }
                 else if (play == 2) {
-                    //TODO: may need clean up....collect one card per turn may not need array.
                     //collect cards to lay off
                     ArrayList<Cards> collect = new ArrayList<Cards>();
                     if (Table.getTableCards().isEmpty()) {
@@ -211,7 +204,7 @@ public class Rummy {
                                             System.out.println("The cards must have the same suit or rank!");
                                             continue;
                                         }
-                                        player1.layOff(collect, a-1);
+                                        Table.addToMeld(collect, a - 1);
                                         //clear array for another round
                                         collect.clear();
                                         break;
@@ -237,6 +230,10 @@ public class Rummy {
             }
             //Check if player won and stop
             if (player1.getPlayerHand().getAllCards().isEmpty()){break;}
+            //check that there are still cards in the stockpile if not turn discard
+            if (StockPile.getStockPile().isEmpty()) {
+                DiscardPile.toStockPile();
+            }
             //Computers turn
             System.out.println("Computers Turn.");
             pc.Play();
@@ -275,7 +272,6 @@ public class Rummy {
                     return intInput;
                 } else {
                     System.out.println("Please enter a positive number, within the range " + min + " " + max);
-                    continue;
                 }
             } catch (NumberFormatException ime) {
                 System.out.println("Please type a positive number");
