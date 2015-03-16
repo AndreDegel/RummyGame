@@ -219,7 +219,6 @@ public class Rummy {
                                 }
                             }
                         }
-
                     }
                 }
 
@@ -238,7 +237,7 @@ public class Rummy {
             //Check if player won and stop
             if (player1.getPlayerHand().getAllCards().isEmpty()){break;}
             //Computers turn
-            System.out.println("Computers Turn.");
+            System.out.println("Computer Plays.");
             pc.Play();
             //Check if computer won and stop
             if (pc.playerHand.getAllCards().isEmpty()){break;}

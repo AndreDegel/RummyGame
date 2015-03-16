@@ -22,12 +22,12 @@ public class Cards implements Comparable<Cards> {
     //Method that returns the string representation of a card.
     @Override
     public String toString(){
-        int rank = this.rank.getValue();        //get card rank number
-        char suit = this.suit.getSymbol();      //get card suit symbol
-        String color = this.suit.getColor();    //get suit color (red/black)
-        String defaultColor = "\u001B[0m";      //ANSI default color
+        String shortRankString = this.rank.getShortString();        //get card rank short string representation
+        char suit = this.suit.getSymbol();                          //get card suit symbol
+        String color = this.suit.getColor();                        //get suit color (red/black)
+        String defaultColor = "\u001B[0m";                          //ANSI default color
 
-        return color + Integer.toString(rank) + suit + defaultColor;
+        return color + shortRankString + suit + defaultColor;
     }
 
     public int compareTo(Cards otherCard) {

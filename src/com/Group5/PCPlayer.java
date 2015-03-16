@@ -20,8 +20,6 @@ public class PCPlayer extends Player {
      * PC AI: to be used every time it's the PC player's turn
      */
     public void Play() {
-        System.out.println(DiscardPile.ShowTopCard());
-        System.out.println(playerHand.getAllCards());
 
         //Draw
         Draw();
@@ -81,35 +79,14 @@ public class PCPlayer extends Player {
         suitsList.add(hearts);
         suitsList.add(diamonds);
 
-        //check what it does so far TODO remove later
-        System.out.println("AI after drawing");
-        System.out.println(DiscardPile.ShowTopCard());
-        System.out.println(playerHand.getAllCards().toString());
-        System.out.println(spades.toString());
-        System.out.println(clubs.toString());
-        System.out.println(hearts.toString());
-        System.out.println(diamonds.toString());
-
-
-
         //Meld if necessary
         meld(suitsList);
 
-        //TODO: remove later
-        System.out.println("AI after melding");
-        System.out.println(Table.getTableCards().toString());
-        System.out.println(playerHand.getAllCards().toString());
-
-
         //Lay off if necessary
         Layoff();
-        System.out.println("AI after layoff");
-        System.out.println(Table.getTableCards().toString());
-        System.out.println(playerHand.getAllCards().toString());
+
         //Discard
         Discard(suitGroups);
-        System.out.println(DiscardPile.ShowTopCard());
-        System.out.println(playerHand.getAllCards().toString());
     }
 
     private void Draw() {
@@ -194,6 +171,8 @@ public class PCPlayer extends Player {
                 //something to meld then meld it and go on
                 if (meld.size() >= 3){
                     Table.newMeld(meld);
+                    System.out.println("PC melds:");
+                    System.out.println(meld);
                     run = true;
                     break;
                 }
@@ -234,6 +213,8 @@ public class PCPlayer extends Player {
                 if (meld.size() >= 3){
                     //meld it
                     Table.newMeld(meld);
+                    System.out.println("PC melds:");
+                    System.out.println(meld);
                     //and remove the cards from the set out of the hand
                     for (Cards a : meld) {
                         playerHand.getAllCards().remove(a);
@@ -306,6 +287,7 @@ public class PCPlayer extends Player {
 
             //layOff cards to table
             layOff(toLayoff, x);
+            System.out.println("PC laid off some cards to table.");
         }
     }
 

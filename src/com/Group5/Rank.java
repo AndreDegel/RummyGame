@@ -24,9 +24,24 @@ public enum Rank {
 
     private Rank() {
         this.VALUE = this.ordinal() + 1;
+
     }
 
     public int getValue() {
         return this.VALUE;
+    }
+
+    public String getShortString() {
+        if (this.VALUE > 1 && this.VALUE < 11) {
+            return "" + this.VALUE;
+        } else if (this.VALUE == 1) {
+            return "A";
+        } else if (this.VALUE == 11) {
+            return "J";
+        } else if (this.VALUE == 12) {
+            return "Q";
+        } else {
+            return "K";
+        }
     }
 }
