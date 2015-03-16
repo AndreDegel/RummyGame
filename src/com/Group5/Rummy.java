@@ -2,8 +2,6 @@ package com.Group5;
 
 import java.util.*;
 
-//TODO: check validation when last 3 cards are melded and layout
-
 
 public class Rummy {
 
@@ -36,12 +34,10 @@ public class Rummy {
         while(true){
         //(!player1.getPlayerHand().getAllCards().isEmpty() ||
                 //!pc.playerHand.getAllCards().isEmpty()){
-            if (player1.getPlayerHand().getAllCards().isEmpty()){break;}
 
 
-            pc.Play();
 
-            if (pc.playerHand.getAllCards().isEmpty()){break;}
+
 
             //check that there are still cards in the stockpile if not turn discard
             if (StockPile.getStockPile().isEmpty()){
@@ -237,52 +233,25 @@ public class Rummy {
                     turn = false;
                 }
             }
-
+            //Check if player won and stop
+            if (player1.getPlayerHand().getAllCards().isEmpty()){break;}
+            //Computers turn
+            System.out.println("Computers Turn.");
+            pc.Play();
+            //Check if computer won and stop
+            if (pc.playerHand.getAllCards().isEmpty()){break;}
         }
-
+        //if player won display message
         if (player1.getPlayerHand().getAllCards().isEmpty()) {
             System.out.println("Congratulations! You Win!");
         }
+        //if computer won display message
         else{
             System.out.println("Sorry! The Computer won!");
         }
         System.out.println("Thank you for playing.");
     }
 
-    /**
-     * Start game:
-     *
-     * deal 10 cards to each player
-     * deal next card to start discard pile
-     * place remainder of cards onto stock pile
-     *
-     * while(true) {
-     *
-     * //player plays
-     * if stock pile is empty:
-     * top discard pile card stays
-     * remainder of discard pile goes to stock
-     *
-     * player draws from stock or discard.
-     * "would you like to meld, lay off, or discard?"
-     *
-     * meld:
-     * ...
-     * "choose a card to discard"
-     *
-     * lay off:
-     * ...
-     * "choose a card to discard"
-     *
-     * player discards.
-     *
-     * if player hand is empty: GAME OVER! Player wins
-     *
-     *
-     *
-     * if pc hand is empty: GAME OVER! PC wins
-     * }
-     **/
 
     //Validation methods
 

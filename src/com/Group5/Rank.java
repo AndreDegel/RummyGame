@@ -26,14 +26,6 @@ public enum Rank {
         this.VALUE = this.ordinal() + 1;
     }
 
-    public static Rank fromValue(int value) {
-        if (value < 1 || value > 13) {
-            return null;
-        } else {
-            return Rank.values()[value - 1];
-        }
-    }
-
     public int getValue() {
         return this.VALUE;
     }

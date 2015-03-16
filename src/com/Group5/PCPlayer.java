@@ -1,6 +1,5 @@
 package com.Group5;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -317,8 +316,6 @@ public class PCPlayer extends Player {
         ArrayList<Cards> discardable = new ArrayList<Cards>();
         ArrayList<Cards> reserve = new ArrayList<Cards>();
 
-        //TODO: figure out which card to discard
-        //TODO: sort ArrayList so that least desired cards are at the front
 
         //Measure difference between same-suit cards and act accordingly
         for (Suit suit : suitGroups.keySet()) {
